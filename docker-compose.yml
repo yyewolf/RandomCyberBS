@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    command: ["--replSet", "dbrs", "--bind_ip_all", "--keyFile", "/dev-keyfile"]
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongodb-data:/data/db
+      - ./env/dev/rs-initiate.js:/docker-entrypoint-initdb.d/rs-initiate.js
+      - ./env/dev/dev-keyfile:/dev-keyfile
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASS}
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
