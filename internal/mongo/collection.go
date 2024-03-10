@@ -25,6 +25,9 @@ func (repo *Collection[T]) Insert(model T) (T, error) {
 	}
 
 	res, err := repo.collection.InsertOne(DefaultContext(), model)
+	if err != nil {
+		return model, err
+	}
 	model.SetID(res.InsertedID.(string))
 	return model, err
 }

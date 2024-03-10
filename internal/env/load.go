@@ -21,11 +21,6 @@ func Load() {
 		logrus.Fatalf("MODE is not set, be sure to have a .env file or set the environment variables")
 	}
 
-	logrus.SetLevel(logrus.DebugLevel)
-	if cfg.Mode == values.Prod {
-		logrus.SetLevel(logrus.InfoLevel)
-	}
-
 	logrus.Infof("Environment loaded: %s", cfg.Mode)
 	logrus.Debugf("Environment: %+v", cfg)
 }

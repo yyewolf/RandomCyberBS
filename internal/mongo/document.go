@@ -15,7 +15,7 @@ type Document interface {
 }
 
 type Doc struct {
-	ID string `bson:"_id,omitempty" json:"_id,omitempty"`
+	ID string `bson:"_id,omitempty" json:"id,omitempty"`
 }
 
 func (doc *Doc) NewID() string {

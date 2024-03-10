@@ -11,7 +11,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-var Db *database
+var Db *Database
 
 func Connect() {
 	// Build the connection string
@@ -45,7 +45,7 @@ func Connect() {
 
 	logrus.Info("Connected to MongoDB!")
 
-	Db = &database{
+	Db = &Database{
 		client: client,
 		db:     client.Database(cfg.Mongo.Database),
 	}

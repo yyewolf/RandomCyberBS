@@ -14,6 +14,11 @@ type config struct {
 		Database   string `env:"DATABASE" envDefault:"rcbs"`
 		Additional string `env:"ADDITIONAL" envDefault:""`
 	} `envPrefix:"MONGO_"`
+
+	// Server
+	Server struct {
+		Port string `env:"PORT" envDefault:"8080"`
+	} `envPrefix:"RCBS_"`
 }
 
 func Get() config {
