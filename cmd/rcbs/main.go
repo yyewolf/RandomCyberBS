@@ -53,6 +53,8 @@ func main() {
 		}),
 	)
 
+	s.Security = fuego.NewSecurity()
+
 	// Setup middlewares
 	fuego.Use(s, chiLog.Logger("router", logrusLogger))
 

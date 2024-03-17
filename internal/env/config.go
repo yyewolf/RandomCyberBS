@@ -17,7 +17,9 @@ type config struct {
 
 	// Server
 	Server struct {
-		Port string `env:"PORT" envDefault:"8080"`
+		Port       string `env:"PORT" envDefault:"8080"`
+		MailDomain string `env:"MAIL_DOMAIN" envDefault:"localhost"`
+		BaseURI    string `env:"BASE_URI" envDefault:"http://localhost:8080"`
 	} `envPrefix:"RCBS_"`
 }
 

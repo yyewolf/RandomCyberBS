@@ -27,7 +27,7 @@ type GetUsersResponse struct {
 	Details string `json:"details"`
 }
 
-func GetUsers(c *fuego.ContextNoBody) (*GetUsersResponse, error) {
+func (ur *UserRessource) GetUsers(c *fuego.ContextNoBody) (*GetUsersResponse, error) {
 	// Convert the query parameters to a GetUsersRequest
 	req := &GetUsersRequest{
 		Username: c.QueryParam("username"),

@@ -11,7 +11,6 @@ import (
 )
 
 func Setup(s *fuego.Server) {
-
 	// Set group for api
 	api := fuego.Group(s, "/api")
 

@@ -18,4 +18,10 @@ var msgs = map[string]string{
 	"user/get/not-found": "User not found",
 	"user/get/db-error":  "An error occurred while listing users",
 	"user/get/ok":        "Found user",
+
+	"user/verify/db-error":         "An error occurred while verifying the user",
+	"user/verify/not-found":        "User not found",
+	"user/verify/wrong-code":       "Wrong verification code",
+	"user/verify/already-verified": "User already verified",
+	"user/verify/ok":               "User verified",
 }

@@ -15,7 +15,7 @@ type GetUserResponse struct {
 	Details string `json:"details"`
 }
 
-func GetUser(c *fuego.ContextNoBody) (*GetUserResponse, error) {
+func (ur *UserRessource) GetUser(c *fuego.ContextNoBody) (*GetUserResponse, error) {
 	id := c.PathParam("id")
 
 	// Find users corresponding to the filters

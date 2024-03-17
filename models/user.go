@@ -8,8 +8,17 @@ import (
 type User struct {
 	mongo.DocWithTimestamps `bson:",inline"`
 
-	Username string `json:"username" bson:"username"`
-	Password string `json:"-" bson:"password"`
+	EmailAddress      string `json:"email_address" bson:"email_address"`
+	VerificationToken string `json:"verification_token" bson:"verification_token"`
+	Verified          bool   `json:"verified" bson:"verified"`
+
+	Username       string `json:"username" bson:"username"`
+	HashedPassword string `json:"-" bson:"password"`
+
+	Points              uint64   `json:"points" bson:"points"`
+	ChallengesCompleted []uint64 `json:"challenges_completed" bson:"challenges_completed"`
+
+	Roles []string `json:"roles" bson:"roles"`
 }
 
 func (u *User) SetPassword(password string) error {
@@ -17,12 +26,12 @@ func (u *User) SetPassword(password string) error {
 	if error != nil {
 		return error
 	}
-	u.Password = string(hashed)
+	u.HashedPassword = string(hashed)
 	return nil
 }
 
 func (u *User) VerifyPassword(password string) (bool, error) {
-	return hash.ComparePasswordAndHash(password, u.Password)
+	return hash.ComparePasswordAndHash(password, u.HashedPassword)
 }
 
 func (u *User) BeforeInsert() error {

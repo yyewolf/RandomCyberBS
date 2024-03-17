@@ -20,3 +20,6 @@ dev-keyfile
 
 # Environment variables file
 .env
+
+# Keys for JWT
+keys/

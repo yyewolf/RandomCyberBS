@@ -1,17 +1,20 @@
 package users
 
 import (
+	"rcbs/internal/mail"
 	"rcbs/internal/messages"
 	"rcbs/models"
 
 	"github.com/go-fuego/fuego"
+	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type CreateUserRequest struct {
-	Username string `json:"username" validate:"required"`
-	Password string `json:"password" validate:"required"`
+	EmailAddress string `json:"email_address" validate:"required,email"`
+	Username     string `json:"username" validate:"required"`
+	Password     string `json:"password" validate:"required"`
 }
 
 type CreateUserResponse struct {
@@ -19,7 +22,7 @@ type CreateUserResponse struct {
 	Details string `json:"details"`
 }
 
-func CreateUser(c *fuego.ContextWithBody[*CreateUserRequest]) (*CreateUserResponse, error) {
+func (ur *UserRessource) Register(c *fuego.ContextWithBody[*CreateUserRequest]) (*CreateUserResponse, error) {
 	body, err := c.Body()
 	if err != nil {
 		return &CreateUserResponse{
@@ -34,7 +37,9 @@ func CreateUser(c *fuego.ContextWithBody[*CreateUserRequest]) (*CreateUserRespon
 
 	// Create user in database
 	user := &models.User{
-		Username: body.Username,
+		Username:          body.Username,
+		EmailAddress:      body.EmailAddress,
+		VerificationToken: uuid.New().String(),
 	}
 
 	user.SetPassword(body.Password)
@@ -64,6 +69,14 @@ func CreateUser(c *fuego.ContextWithBody[*CreateUserRequest]) (*CreateUserRespon
 			}, err
 		}
 	}
+
+	go mail.SendWelcomeMail(user)
+
+	logrus.WithFields(logrus.Fields{
+		"username": body.Username,
+		"id":       user.ID,
+		"token":    user.VerificationToken,
+	}).Info("User created")
 
 	return &CreateUserResponse{Status: "ok", Details: messages.Get("user/create/ok")}, nil
 }
