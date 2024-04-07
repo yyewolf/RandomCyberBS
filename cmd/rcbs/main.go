@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log/slog"
 	"rcbs/api"
 	"rcbs/internal/env"
@@ -44,9 +43,9 @@ func main() {
 
 	// Create our fuego server
 	s := fuego.NewServer(
-		fuego.WithPort(fmt.Sprintf(":%s", cfg.Server.Port)),
+		fuego.WithPort(cfg.Server.Port),
 		fuego.WithLogHandler(logger.Handler()),
-		fuego.WithOpenapiConfig(fuego.OpenapiConfig{
+		fuego.WithOpenAPIConfig(fuego.OpenAPIConfig{
 			DisableLocalSave: true,
 			SwaggerUrl:       "/api",
 			JsonUrl:          "/api/api.json",
