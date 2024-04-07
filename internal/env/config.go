@@ -17,9 +17,20 @@ type config struct {
 
 	// Server
 	Server struct {
-		Port       string `env:"PORT" envDefault:"8080"`
-		MailDomain string `env:"MAIL_DOMAIN" envDefault:"localhost"`
-		BaseURI    string `env:"BASE_URI" envDefault:"http://localhost:8080"`
+		Port    string `env:"PORT" envDefault:"8080"`
+		BaseURI string `env:"BASE_URI" envDefault:"http://localhost:8080"`
+
+		// Mail
+		Mail struct {
+			RelayHost          string `env:"RELAY_HOST"`
+			RelayPort          int    `env:"RELAY_PORT"`
+			RelayUsername      string `env:"RELAY_USERNAME"`
+			RelayPassword      string `env:"RELAY_PASSWORD"`
+			RelayTLS           bool   `env:"RELAY_TLS"`
+			RelayIgnoreTLSCert bool   `env:"IGNORE_TLS_CERT"`
+			From               string `env:"FROM" envDefault:"no-reply@localhost"`
+			Name               string `env:"NAME" envDefault:"RCBS"`
+		} `envPrefix:"MAIL_"`
 	} `envPrefix:"RCBS_"`
 }
 
