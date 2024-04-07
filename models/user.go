@@ -13,6 +13,7 @@ type User struct {
 	Verified          bool   `json:"verified" bson:"verified"`
 
 	Username       string `json:"username" bson:"username"`
+	Slug           string `json:"slug" bson:"slug"`
 	HashedPassword string `json:"-" bson:"password"`
 
 	Points              uint64   `json:"points" bson:"points"`
