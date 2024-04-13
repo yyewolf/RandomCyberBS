@@ -23,3 +23,17 @@ dev-keyfile
 
 # Keys for JWT
 keys/
+
+# NPM
+package-lock.json
+node_modules/
+
+# Air
+tmp/
+bin/
+
+# Templates
+*_templ.go
+
+# Tailwind
+tailwind.min.css

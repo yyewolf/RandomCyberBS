@@ -8,6 +8,8 @@ import (
 	"rcbs/internal/values"
 	"rcbs/models"
 
+	"github.com/rs/cors"
+
 	chiLog "github.com/chi-middleware/logrus-logger"
 	"github.com/go-fuego/fuego"
 	sloglogrus "github.com/samber/slog-logrus/v2"
@@ -50,6 +52,12 @@ func main() {
 			SwaggerUrl:       "/api",
 			JsonUrl:          "/api/api.json",
 		}),
+		fuego.WithCorsMiddleware(cors.New(cors.Options{
+			AllowedOrigins:   []string{"*"},
+			AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+			AllowedHeaders:   []string{"*"},
+			AllowCredentials: true,
+		}).Handler),
 	)
 
 	s.Security = fuego.NewSecurity()

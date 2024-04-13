@@ -1,12 +1,11 @@
 package users
 
 import (
+	"rcbs/api/v1/controllers/users"
 	"rcbs/internal/messages"
 	"rcbs/models"
 
 	"github.com/go-fuego/fuego"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type GetUsersRequest struct {
@@ -35,43 +34,19 @@ func (ur *UserRessource) GetUsers(c *fuego.ContextNoBody) (*GetUsersResponse, er
 		PerPage:  c.QueryParamInt("per_page", 10),
 	}
 
-	// Make a filter for the username
-	filter := bson.M{
-		"username": bson.M{"$regex": req.Username, "$options": "i"},
-	}
-
-	// Find users corresponding to the filters
-	users, err := models.Db.Users.Find(
-		filter,
-		options.Find().SetSkip(int64((req.Page-1)*req.PerPage)).SetLimit(int64(req.PerPage)),
-	)
+	r, err := users.GetUsers(req.Username, req.Page, req.PerPage)
 	if err != nil {
 		return &GetUsersResponse{
 			Status:  "error",
 			Details: messages.Get("user/list/db-error"),
 		}, err
-	}
-
-	// Count the total number of users corresponding to the filters
-	total, err := models.Db.Users.CountDocuments(filter)
-	if err != nil {
-		return &GetUsersResponse{
-			Status:  "error",
-			Details: messages.Get("user/list/db-error"),
-		}, err
-	}
-
-	// Calculate the max page
-	maxPage := total / int64(req.PerPage)
-	if total%int64(req.PerPage) != 0 {
-		maxPage++
 	}
 
 	return &GetUsersResponse{
-		Users:   users,
-		Page:    req.Page,
-		PerPage: req.PerPage,
-		MaxPage: int(maxPage),
+		Users:   r.Users,
+		Page:    r.Page,
+		PerPage: r.PerPage,
+		MaxPage: r.MaxPage,
 
 		Status:  "ok",
 		Details: messages.Get("user/list/ok"),

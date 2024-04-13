@@ -1,0 +1,57 @@
+package components
+
+templ Scripts() {
+	<script defer type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+	<script defer src="https://unpkg.com/htmx.org/dist/htmx.min.js">
+    htmx.on("htmx:sendError", function (evt) {
+      errormessage_on();
+    });
+
+    function errormessage_on() {
+      const errDiv = document.getElementById("errormessages");
+      errDiv.classList.remove("hidden");
+      errDiv.classList.add("flex");
+    }
+
+    function errormessage_off() {
+      const errDiv = document.getElementById("errormessages");
+      errDiv.classList.add("hidden");
+      errDiv.classList.remove("flex");
+    }
+
+    document.body.addEventListener("entity-updated", function(evt) {
+      Toastify({
+          text: "Updated successfully",
+          duration: 3000,
+          close: true,
+          stopOnFocus: true, // Prevents dismissing of toast on hover
+          style: {
+          background: "linear-gradient(to right, #00b09b, #96c93d)",
+        },
+      }).showToast();
+    })
+  });
+  </script>
+	<script defer src="https://unpkg.com/nunjucks@3.2.4/browser/nunjucks.js"></script>
+	<script defer src="https://unpkg.com/htmx.org/dist/ext/client-side-templates.js">
+    htmx.defineExtension('client-side-templates', {
+      transformResponse : function(text, xhr, elt) {
+        var nunjucksTemplate = htmx.closest(elt, "[nunjucks-template]");
+          if (nunjucksTemplate) {
+              var data = {
+                gists: JSON.parse(text).map((item) => {
+                  // parser : https://codepen.io/localhorst/pen/ZEbqVZd
+                  item.parsed = new leptonParser().parse(item.description);
+                  return item; 
+                })
+              };
+
+              var templateName = nunjucksTemplate.getAttribute('nunjucks-template');
+              var template = htmx.find('#' + templateName);
+              console.log(templateName,data);
+              return nunjucks.renderString(template.innerHTML, data);
+          }
+          return text;
+      }
+  </script>
+}

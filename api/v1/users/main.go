@@ -24,7 +24,8 @@ func MountRoutes(s *fuego.Server) *UserRessource {
 		QueryParam("id", "string", fuego.OpenAPIParam{Required: true, Example: "1", Type: "path"}).
 		QueryParam("token", "string", fuego.OpenAPIParam{Required: true, Example: "fsdfsd", Type: "path"})
 
-	fuego.Get(users, "/", ur.GetUsers, ur.mr.AuthWall("admin")).
+	// fuego.Get(users, "/", ur.GetUsers, ur.mr.AuthWall("admin")).
+	fuego.Get(users, "/", ur.GetUsers).
 		QueryParam("page", "int", fuego.OpenAPIParam{Required: false, Example: "1", Type: "query"}).
 		QueryParam("per_page", "int", fuego.OpenAPIParam{Required: false, Example: "10", Type: "query"}).
 		QueryParam("username", "string", fuego.OpenAPIParam{Required: false, Example: "user", Type: "query"})

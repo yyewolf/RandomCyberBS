@@ -20,7 +20,10 @@ var Db *Database
 
 func LoadDatabase() {
 	Db = &Database{
-		Users: mongo.GetCollection[*User](mongo.Db, "users"),
+		Users:      mongo.GetCollection[*User](mongo.Db, "users"),
+		Challenges: mongo.GetCollection[*Challenge](mongo.Db, "challenges"),
+		Solutions:  mongo.GetCollection[*Solution](mongo.Db, "solutions"),
+		Upvotes:    mongo.GetCollection[*Upvote](mongo.Db, "upvotes"),
 
 		Database: mongo.Db,
 	}

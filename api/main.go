@@ -3,6 +3,7 @@ package api
 import (
 	"log"
 	v1 "rcbs/api/v1"
+	"rcbs/views"
 	"time"
 
 	"github.com/go-fuego/fuego"
@@ -34,6 +35,9 @@ func Setup(s *fuego.Server) {
 	fuego.Use(api, middleware.Handle)
 
 	fuego.Get(api, "/health", Health)
+
+	// Mount views
+	views.Routes(fuego.Group(s, "/"))
 
 	v1.Setup(api)
 }

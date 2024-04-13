@@ -1,0 +1,36 @@
+package components
+
+templ Footer() {
+	<footer class="w-full">
+		<section
+			class="flex items-center justify-center gap-4 text-gray-200 p-1 text-sm bg-zinc-900 md:p-4"
+			hx-boost="true"
+		>
+			<a href="/about">About</a>
+			<a href="/contact">Contact</a>
+			<a href="/terms">Terms</a>
+			<a href="/privacy">Privacy</a>
+			<a href="/cookies">Cookies</a>
+			<a href="/admin">Admin</a>
+		</section>
+		<section
+			class="flex items-center
+    justify-center gap-4 bg-zinc-950 p-1
+    text-center text-sm text-white
+    md:p-4"
+		>
+			<span>
+				Made with ❤️ by
+				<a
+					href="https://github.com/yyewolf/rcbs"
+					class="
+        inline-block
+        bg-gradient-to-r text-orange-100
+        bg-clip-text font-bold italic"
+				>
+					Yewolf
+				</a>
+			</span>
+		</section>
+	</footer>
+}

@@ -1,0 +1,28 @@
+package admin
+
+templ AdminNavbar() {
+	<nav
+		class="w-full space-y-6 bg-zinc-900 p-4 text-gray-400 shadow "
+		hx-boost="true"
+		hx-target="#page"
+		hx-select="#page"
+		hx-swap="outerHTML"
+	>
+		<h1 class="mb-4 text-center">
+			<a
+				class="inline-block bg-clip-text font-serif text-white text-2xl font-bold italic text-transparent"
+				href="/"
+				hx-boost="false"
+			>
+				RCBS
+			</a>
+		</h1>
+		<ul>
+			<li
+				class="mb-4 text-xl text-white hover:text-gray-200 hover:underline"
+			>
+				<a href="/admin/users">Users</a>
+			</li>
+		</ul>
+	</nav>
+}

@@ -9,7 +9,7 @@ type User struct {
 	mongo.DocWithTimestamps `bson:",inline"`
 
 	EmailAddress      string `json:"email_address" bson:"email_address"`
-	VerificationToken string `json:"verification_token" bson:"verification_token"`
+	VerificationToken string `json:"-" bson:"verification_token"`
 	Verified          bool   `json:"verified" bson:"verified"`
 
 	Username       string `json:"username" bson:"username"`

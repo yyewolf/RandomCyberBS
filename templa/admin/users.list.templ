@@ -1,0 +1,32 @@
+package admin
+
+import (
+	"rcbs/models"
+)
+
+templ UsersList(users []*models.User) {
+	for _, user := range users {
+		<tr id="userlist" class="bg-gray-100 rounded-xl">
+			<td class="border-b border-zinc-100 dark:border-zinc-700 p-4 pr-8 text-zinc-700 dark:text-zinc-300 text-center">
+				<a
+					href={ templ.URL("/users/" + user.ID) }
+					hx-boost="true"
+					hx-target="#page"
+					hx-select="#page"
+					hx-swap="outerHTML"
+					class="hover:text-blue-500"
+				>
+					<strong class="font-semibold">{ user.Username }</strong>
+				</a>
+			</td>
+			<td class="border-b border-zinc-100 dark:border-zinc-700 p-4 pr-8 text-zinc-700 dark:text-zinc-300 text-center">{ user.CreatedAt.String() }</td>
+			<td class="border-b border-zinc-100 dark:border-zinc-700 p-4 pr-8 text-zinc-700 dark:text-zinc-300 text-center">
+				if user.Verified {
+					<span class="text-green-500">Verified</span>
+				} else {
+					<span class="text-gray-500-500">Not Verified</span>
+				}
+			</td>
+		</tr>
+	}
+}

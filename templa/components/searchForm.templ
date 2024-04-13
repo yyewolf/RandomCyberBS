@@ -1,0 +1,60 @@
+package components
+
+import "fmt"
+
+type SearchParams struct {
+	URL     string `json:"url"`
+	Name    string `json:"name"`
+	Page    int    `json:"page"`
+	PerPage int    `json:"per_page"`
+	MaxPage int    `json:"max_page"`
+	Lang    string `json:"lang"` // english by default
+}
+
+var searchBoxDefaultTranslations = map[string]string{
+	"Search":   "Search",
+	"Page":     "Page",
+	"Per Page": "Per Page",
+}
+
+var searchBoxTranslations = map[string]map[string]string{
+	"":   searchBoxDefaultTranslations,
+	"en": searchBoxDefaultTranslations,
+	"fr": {
+		"Search":   "Rechercher",
+		"Page":     "Page",
+		"Per Page": "Par Page",
+	},
+}
+
+templ SearchBox(parameters SearchParams) {
+	<form
+		class="flex flex-row gap-4 items-center my-4 md:my-8"
+		method="GET"
+		if (parameters.URL != "") {
+			action={ templ.URL(parameters.URL) }
+		}
+		hx-push-url="true"
+		hx-boost="true"
+		hx-trigger="change delay:100ms, search"
+		hx-target="#page"
+		hx-select="#page"
+		hx-swap="outerHTML"
+	>
+		<label class="label" for="name">
+			{ searchBoxTranslations[parameters.Lang]["Search"] }
+			<input class="input w-full" type="text" name="name" value={ parameters.Name }/>
+		</label>
+		<label class="label w-20" for="page">
+			{ searchBoxTranslations[parameters.Lang]["Page"] }
+			<input class="input" type="number" name="page" value={ fmt.Sprintf("%d", parameters.Page) }/>
+		</label>
+		<label class="label w-20" for="perPage">
+			{ searchBoxTranslations[parameters.Lang]["Per Page"] }
+			<input class="input" type="number" name="perPage" value={ fmt.Sprintf("%d", parameters.PerPage) }/>
+		</label>
+		<button class="button hidden" type="submit">
+			Search
+		</button>
+	</form>
+}

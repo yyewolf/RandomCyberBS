@@ -3,12 +3,14 @@ module rcbs
 go 1.22.0
 
 require (
+	github.com/a-h/templ v0.2.663
 	github.com/caarlos0/env/v10 v10.0.0
 	github.com/chi-middleware/logrus-logger v0.3.0
 	github.com/go-fuego/fuego v0.13.4
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/google/uuid v1.6.0
 	github.com/joho/godotenv v1.5.1
+	github.com/rs/cors v1.8.3
 	github.com/samber/slog-logrus/v2 v2.2.0
 	github.com/sethvargo/go-limiter v1.0.0
 	github.com/sirupsen/logrus v1.9.3
