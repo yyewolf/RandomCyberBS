@@ -17,6 +17,8 @@ func MountRoutes(s *fuego.Server) *UserRessource {
 
 	ur := &UserRessource{s: users, mr: middlewares.New(s)}
 
+	fuego.Post(s, "/auth/login", ur.LoginHandler(LoginFunc)).Tags("Auth").Summary("Login")
+
 	fuego.Get(users, "/{id}", ur.GetUser).
 		QueryParam("id", "string", fuego.OpenAPIParam{Required: true, Example: "1", Type: "path"})
 

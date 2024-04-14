@@ -6,7 +6,7 @@ import (
 
 func Routes(s *fuego.Server) {
 	// Public Pages
-	// fuego.All(s, "/", rs.showIndex, cache.New())
+	fuego.All(s, "/login", login)
 
 	staticRoutes := fuego.Group(s, "/static")
 	fuego.GetStd(staticRoutes, "/robots.txt", robots)

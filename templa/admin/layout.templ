@@ -10,9 +10,9 @@ templ htmlPage(title string, admin bool) {
 		<head>
 			@components.Head(title)
 		</head>
-		<body class="m-0 flex flex-col h-screen dark:bg-zinc-800 dark:text-white">
+		<body id="page" hx-ext="morphdom-swap" class="m-0 flex flex-col h-screen dark:bg-zinc-800 dark:text-white">
 			@AdminNavbar()
-			<main id="page" class="mb-auto container mx-auto p-4">
+			<main class="mb-auto container mx-auto p-4">
 				{ children... }
 			</main>
 			@components.Footer()

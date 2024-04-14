@@ -12,19 +12,24 @@ templ UsersPage(users []*models.User, parameters components.SearchParams) {
 			<h1>Users</h1>
 		</hgroup>
 		<div class="border rounded border-zinc-100 dark:border-zinc-700 shadow p-4 md:p-8">
-			<form
+			<div
 				class="w-full"
 				type="search"
-				hx-trigger="input changed delay:500ms, search"
-				hx-target="#search-results"
-				hx-indicator=".htmx-indicator"
 			>
 				<div class="flex flex-row">
 					<input
 						class="p-2 rounded-xl mb-4 md:mb-8 p-4 border border-zinc-100 dark:border-zinc-700"
-						name="name"
 						placeholder="Filter by username..."
-						onchange="this.form.submit()"
+						id="name"
+						hx-get="users"
+						hx-trigger="keyup"
+						hx-include="[name=page],[name=perPage]"
+						hx-push-url="true"
+						hx-trigger="change"
+						hx-vals="js:{name: event.target.value}"
+						hx-target="#page"
+						hx-indicator=".htmx-indicator"
+						hx-swap="morphdom:outerHTML"
 						value={ parameters.Name }
 					/>
 					<span class="htmx-indicator">
@@ -45,38 +50,90 @@ templ UsersPage(users []*models.User, parameters components.SearchParams) {
 						</tbody>
 					</tbody>
 				</table>
-				<div class="mt-5 flex flex-row gap-4">
-					<div>
-						Page :
-						<select
-							class="p-2 rounded-xl"
-							name="page"
-							autocomplete="off"
-							onchange="this.form.submit()"
-						>
-							for i := 1; i <= parameters.MaxPage; i++ {
-								<option
-									value={ fmt.Sprint(i) }
-									if i == parameters.Page {
-										selected
-									}
-								>{ fmt.Sprint(i) }</option>
-							}
-						</select>
-					</div>
+				<div class="mt-5 flex flex-row gap-4 justify-between">
 					<div>
 						Per Page :
 						<input
 							class="p-2 rounded-xl w-20"
 							type="number"
-							name="perPage"
+							hx-get="users"
+							hx-include="[name=page],[name=name]"
+							hx-push-url="true"
+							hx-trigger="change"
+							hx-vals="js:{perPage: event.target.value}"
+							hx-target="#page"
+							hx-swap="outerHTML"
+							hx-indicator=".htmx-indicator"
 							value={ fmt.Sprint(parameters.PerPage) }
 							autocomplete="off"
-							onchange="this.form.submit()"
 						/>
 					</div>
+					// if parameters.MaxPage > 1 {
+					<div class="flex flex-row">
+						<button
+							class="p-2 rounded-xl disabled:opacity-50"
+							hx-target="#page"
+							hx-push-url="true"
+							hx-get="users"
+							hx-include="[name=perPage],[name=name]"
+							hx-vals='{"page":"1"}'
+							hx-indicator=".htmx-indicator"
+							if parameters.Page == 1 {
+								disabled
+							}
+						>
+							First
+						</button>
+						<button
+							class="p-2 rounded-xl disabled:opacity-50"
+							hx-target="#page"
+							hx-push-url="true"
+							hx-get="users"
+							hx-include="[name=perPage],[name=name]"
+							hx-vals={ fmt.Sprintf(`{"page":"%d"}`, parameters.Page-1) }
+							hx-indicator=".htmx-indicator"
+							if parameters.Page == 1 {
+								disabled
+							}
+						>
+							Back
+						</button>
+						<div class="p-2 rounded-xl">{ fmt.Sprintf("%d/%d", parameters.Page, parameters.MaxPage) }</div>
+						<button
+							class="p-2 rounded-xl disabled:opacity-50"
+							hx-target="#page"
+							hx-push-url="true"
+							hx-get="users"
+							hx-include="[name=perPage],[name=name]"
+							hx-vals={ fmt.Sprintf(`{"page":"%d"}`, parameters.Page+1) }
+							hx-indicator=".htmx-indicator"
+							if parameters.Page == parameters.MaxPage {
+								disabled
+							}
+						>
+							Next
+						</button>
+						<button
+							class="p-2 rounded-xl disabled:opacity-50"
+							hx-target="#page"
+							hx-push-url="true"
+							hx-get="users"
+							hx-include="[name=perPage],[name=name]"
+							hx-vals={ fmt.Sprintf(`{"page":"%d"}`, parameters.MaxPage) }
+							hx-indicator=".htmx-indicator"
+							if parameters.Page == parameters.MaxPage {
+								disabled
+							}
+						>
+							Last
+						</button>
+					</div>
+					// }
 				</div>
-			</form>
+			</div>
+			<input type="hidden" name="page" value={ fmt.Sprint(parameters.Page) }/>
+			<input type="hidden" name="name" value={ parameters.Name }/>
+			<input type="hidden" name="perPage" value={ fmt.Sprint(parameters.PerPage) }/>
 		</div>
 	}
 }

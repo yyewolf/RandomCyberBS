@@ -16,7 +16,7 @@ func Setup(s *fuego.Server) {
 
 	// Auth
 	fuego.Use(v1, mr.TokenFromContext)
-	fuego.Post(v1, "/auth/login", s.Security.LoginHandler(users.LoginFunc)).Tags("Auth").Summary("Login")
+	// fuego.Post(v1, "/auth/login", s.Security.LoginHandler(users.LoginFunc)).Tags("Auth").Summary("Login") // Registered by users
 	fuego.PostStd(v1, "/auth/logout", s.Security.CookieLogoutHandler).Tags("Auth").Summary("Logout")
 	fuego.PostStd(v1, "/auth/refresh", s.Security.RefreshHandler).Tags("Auth").Summary("Refresh token")
 

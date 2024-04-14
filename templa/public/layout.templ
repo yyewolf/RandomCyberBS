@@ -1,4 +1,4 @@
-package templa
+package public
 
 import (
 	"rcbs/templa/components"
@@ -10,7 +10,7 @@ templ page(title string) {
 		<head>
 			@components.Head(title)
 		</head>
-		<body class="m-0 dark:bg-zinc-800 dark:text-white">
+		<body class="m-0 flex flex-col h-screen dark:bg-zinc-800 dark:text-white">
 			<div
 				id="errormessages"
 				class="alert alert-danger fixed bottom-0 z-50 hidden w-screen items-center justify-between bg-red-500 p-2 text-center text-white"
@@ -20,7 +20,7 @@ templ page(title string) {
 				<button class="btn btn-red-bg" onclick="errormessage_off()">Close</button>
 			</div>
 			@NavBar()
-			<main id="page" class="container mx-auto">
+			<main id="page" class="mb-auto flex mx-auto p-4 h-full">
 				{ children... }
 			</main>
 			@components.Footer()
