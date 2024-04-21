@@ -1,10 +1,14 @@
-package admin
+package users
 
 import (
 	"rcbs/models"
 )
 
-templ UsersList(users []*models.User) {
+type ListError struct {
+	Message string
+}
+
+templ UsersList(users []*models.User, err *ListError) {
 	for _, user := range users {
 		<tr id="userlist" class="bg-gray-100 rounded-xl">
 			<td class="border-b border-zinc-100 dark:border-zinc-700 p-4 pr-8 text-zinc-700 dark:text-zinc-300 text-center">

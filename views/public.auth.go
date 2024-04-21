@@ -9,3 +9,7 @@ import (
 func login(c fuego.ContextNoBody) (fuego.Templ, error) {
 	return public.LoginPage(), nil
 }
+
+func register(c fuego.ContextNoBody) (fuego.Templ, error) {
+	return public.RegisterPage(), nil
+}

@@ -17,22 +17,17 @@ func MountRoutes(s *fuego.Server) *UserRessource {
 
 	ur := &UserRessource{s: users, mr: middlewares.New(s)}
 
-	fuego.Post(s, "/auth/login", ur.LoginHandler(LoginFunc)).Tags("Auth").Summary("Login")
-
 	fuego.Get(users, "/{id}", ur.GetUser).
 		QueryParam("id", "string", fuego.OpenAPIParam{Required: true, Example: "1", Type: "path"})
+
+	fuego.Get(users, "/", ur.GetUsers).
+		QueryParam("name", "string", fuego.OpenAPIParam{Required: true, Example: "1", Type: "query"}).
+		QueryParam("page", "int", fuego.OpenAPIParam{Required: true, Example: "1", Type: "query"}).
+		QueryParam("perPage", "int", fuego.OpenAPIParam{Required: true, Example: "1", Type: "query"})
 
 	fuego.Get(users, "/{id}/verify/{token}", ur.VerifyEmailAddress).
 		QueryParam("id", "string", fuego.OpenAPIParam{Required: true, Example: "1", Type: "path"}).
 		QueryParam("token", "string", fuego.OpenAPIParam{Required: true, Example: "fsdfsd", Type: "path"})
-
-	// fuego.Get(users, "/", ur.GetUsers, ur.mr.AuthWall("admin")).
-	fuego.Get(users, "/", ur.GetUsers).
-		QueryParam("page", "int", fuego.OpenAPIParam{Required: false, Example: "1", Type: "query"}).
-		QueryParam("per_page", "int", fuego.OpenAPIParam{Required: false, Example: "10", Type: "query"}).
-		QueryParam("username", "string", fuego.OpenAPIParam{Required: false, Example: "user", Type: "query"})
-
-	fuego.Post(users, "/", ur.Register)
 
 	return ur
 }

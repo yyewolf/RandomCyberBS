@@ -6,10 +6,10 @@ func Get(key string) string {
 
 var msgs = map[string]string{
 	// Create user
-	"user/create/already-exists": "User already exists",
-	"user/create/bad-request":    "Bad request",
-	"user/create/db-error":       "An error occurred while creating the user",
-	"user/create/ok":             "User created",
+	"register/already-exists": "User already exists",
+	"register/bad-request":    "Bad request",
+	"register/db-error":       "An error occurred while creating the user",
+	"register/ok":             "User created",
 
 	"user/list/bad-request": "Bad request",
 	"user/list/db-error":    "An error occurred while listing users",
@@ -24,4 +24,7 @@ var msgs = map[string]string{
 	"user/verify/wrong-code":       "Wrong verification code",
 	"user/verify/already-verified": "User already verified",
 	"user/verify/ok":               "User verified",
+
+	"login/error": "An error occurred while logging in",
+	"login/wrong": "Username or password is incorrect",
 }

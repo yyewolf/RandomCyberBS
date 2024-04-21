@@ -1,0 +1,11 @@
+package public
+
+import (
+	"rcbs/templa/api/v1/auth"
+)
+
+templ RegisterPage() {
+	@page("RCBS - Register") {
+		@auth.RegisterForm(nil)
+	}
+}

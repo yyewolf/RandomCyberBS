@@ -1,0 +1,65 @@
+package auth
+
+type RegisterError struct {
+	Message string
+}
+
+templ RegisterForm(err *RegisterError) {
+	<div
+		hx-target="this"
+		hx-swap="morphdom:outerHTML"
+		class="flex justify-center items-center self-center"
+	>
+		<div class="w-96">
+			if err != nil {
+				<div
+					id="errormessages"
+					class="alert alert-danger items-center justify-between bg-red-500 p-2 text-center text-white"
+					role="alert"
+				>
+					<h4 class="ml-4">{ err.Message }</h4>
+					<button class="bg-red-800 p-1 rounded-lg ht-2" hx-on:click="errormessage_off()">Close</button>
+				</div>
+			}
+			<form
+				hx-post="/api/v1/auth/register"
+				hx-ext="json-enc"
+			>
+				<div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+					<div class="mb-4">
+						<label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+							Email
+						</label>
+						<input name="email_address" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="example@example.com"/>
+					</div>
+					<div class="mb-4">
+						<label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+							Username
+						</label>
+						<input name="username" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username"/>
+					</div>
+					<div class="mb-4">
+						<label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+							Password
+						</label>
+						<input name="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************"/>
+					</div>
+					<div class="mb-4">
+						<label class="block text-gray-700 text-sm font-bold mb-2" for="confirm_password">
+							Confirm Password
+						</label>
+						<input name="password_confirm" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="confirm_password" type="password" placeholder="******************"/>
+					</div>
+					<div class="flex items-center justify-between">
+						<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+							Register
+						</button>
+					</div>
+				</div>
+				<p class="text-center text-gray-500 text-xs">
+					&copy;2020 RCBS. All rights reserved.
+				</p>
+			</form>
+		</div>
+	</div>
+}

@@ -14,7 +14,7 @@ import (
 func SendWelcomeMail(u *models.User) {
 	c := env.Get()
 
-	var m gomail.Message
+	m := gomail.NewMessage()
 
 	m.SetAddressHeader("From", fmt.Sprintf("no-reply@%s", c.Server.Mail.From), c.Server.Mail.Name)
 	m.SetHeader("To", u.EmailAddress)

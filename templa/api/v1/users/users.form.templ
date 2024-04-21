@@ -1,0 +1,130 @@
+package users
+
+import (
+	"fmt"
+	"rcbs/models"
+	"rcbs/templa/components"
+)
+
+templ UsersForm(users []*models.User, parameters components.SearchParams, err *ListError) {
+	<div
+		id="form"
+		class="w-full"
+		type="search"
+	>
+		<div class="flex flex-row">
+			<input
+				class="p-2 rounded-xl mb-4 md:mb-8 p-4 border border-zinc-100 dark:border-zinc-700"
+				placeholder="Filter by username..."
+				id="name"
+				hx-get="/api/v1/users/"
+				hx-include="[name=page],[name=perPage]"
+				hx-trigger="keyup changed"
+				hx-vals="js:{name: event.target.value}"
+				hx-target="#form"
+				hx-indicator=".htmx-indicator"
+				hx-swap="morphdom:outerHTML"
+				value={ parameters.Name }
+			/>
+			<span class="htmx-indicator">
+				Searching...
+			</span>
+		</div>
+		<table class="table w-full">
+			<thead>
+				<tr>
+					<th class="border-b border-zinc-100 dark:border-zinc-700 p-4 pr-8 text-zinc-700 dark:text-zinc-300">Name</th>
+					<th class="border-b border-zinc-100 dark:border-zinc-700 p-4 pr-8 text-zinc-700 dark:text-zinc-300">Creation Date</th>
+					<th class="border-b border-zinc-100 dark:border-zinc-700 p-4 pr-8 text-zinc-700 dark:text-zinc-300">Verified</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tbody id="search-results">
+					@UsersList(users, nil)
+				</tbody>
+			</tbody>
+		</table>
+		<div class="mt-5 flex flex-row gap-4 justify-between">
+			<div>
+				Per Page :
+				<input
+					class="p-2 rounded-xl w-20"
+					type="number"
+					hx-get="/api/v1/users/"
+					hx-include="[name=page],[name=name]"
+					hx-trigger="change"
+					hx-vals="js:{perPage: event.target.value}"
+					hx-target="#form"
+					hx-swap="morphdom:outerHTML"
+					hx-indicator=".htmx-indicator"
+					value={ fmt.Sprint(parameters.PerPage) }
+					autocomplete="off"
+				/>
+			</div>
+			// if parameters.MaxPage > 1 {
+			<div class="flex flex-row">
+				<button
+					class="p-2 rounded-xl disabled:opacity-50"
+					hx-target="#form"
+					hx-get="/api/v1/users/"
+					hx-include="[name=perPage],[name=name]"
+					hx-vals='{"page":"1"}'
+					hx-indicator=".htmx-indicator"
+					hx-swap="morphdom:outerHTML"
+					if parameters.Page == 1 {
+						disabled
+					}
+				>
+					First
+				</button>
+				<button
+					class="p-2 rounded-xl disabled:opacity-50"
+					hx-target="#form"
+					hx-get="/api/v1/users/"
+					hx-include="[name=perPage],[name=name]"
+					hx-vals={ fmt.Sprintf(`{"page":"%d"}`, parameters.Page-1) }
+					hx-indicator=".htmx-indicator"
+					hx-swap="morphdom:outerHTML"
+					if parameters.Page == 1 {
+						disabled
+					}
+				>
+					Back
+				</button>
+				<div class="p-2 rounded-xl">{ fmt.Sprintf("%d/%d", parameters.Page, parameters.MaxPage) }</div>
+				<button
+					class="p-2 rounded-xl disabled:opacity-50"
+					hx-target="#form"
+					hx-get="/api/v1/users/"
+					hx-include="[name=perPage],[name=name]"
+					hx-vals={ fmt.Sprintf(`{"page":"%d"}`, parameters.Page+1) }
+					hx-indicator=".htmx-indicator"
+					hx-swap="morphdom:outerHTML"
+					if parameters.Page == parameters.MaxPage {
+						disabled
+					}
+				>
+					Next
+				</button>
+				<button
+					class="p-2 rounded-xl disabled:opacity-50"
+					hx-target="#form"
+					hx-get="/api/v1/users/"
+					hx-include="[name=perPage],[name=name]"
+					hx-vals={ fmt.Sprintf(`{"page":"%d"}`, parameters.MaxPage) }
+					hx-indicator=".htmx-indicator"
+					hx-swap="morphdom:outerHTML"
+					if parameters.Page == parameters.MaxPage {
+						disabled
+					}
+				>
+					Last
+				</button>
+			</div>
+			// }
+		</div>
+	</div>
+	<input type="hidden" name="page" value={ fmt.Sprint(parameters.Page) }/>
+	<input type="hidden" name="name" value={ parameters.Name }/>
+	<input type="hidden" name="perPage" value={ fmt.Sprint(parameters.PerPage) }/>
+}

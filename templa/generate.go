@@ -1,3 +1,3 @@
-package templa
+package templates
 
 //go:generate templ generate

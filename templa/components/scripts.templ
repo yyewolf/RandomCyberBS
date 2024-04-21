@@ -7,18 +7,6 @@ templ Scripts() {
       errormessage_on();
     });
 
-    function errormessage_on() {
-      const errDiv = document.getElementById("errormessages");
-      errDiv.classList.remove("hidden");
-      errDiv.classList.add("flex");
-    }
-
-    function errormessage_off() {
-      const errDiv = document.getElementById("errormessages");
-      errDiv.classList.add("hidden");
-      errDiv.classList.remove("flex");
-    }
-
     document.body.addEventListener("entity-updated", function(evt) {
       Toastify({
           text: "Updated successfully",
@@ -30,6 +18,19 @@ templ Scripts() {
         },
       }).showToast();
     })
+  </script>
+	<script>
+    function errormessage_on() {
+      const errDiv = document.getElementById("errormessages");
+      errDiv.classList.remove("hidden");
+      errDiv.classList.add("flex");
+    }
+
+    function errormessage_off() {
+      const errDiv = document.getElementById("errormessages");
+      errDiv.classList.add("hidden");
+      errDiv.classList.remove("flex");
+    }
   </script>
 	<script defer src="https://unpkg.com/nunjucks@3.2.4/browser/nunjucks.js"></script>
 	<script defer src="https://unpkg.com/htmx.org/dist/ext/client-side-templates.js">

@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"rcbs/api/v1/auth"
 	"rcbs/api/v1/middlewares"
 	"rcbs/api/v1/users"
 
@@ -19,6 +20,9 @@ func Setup(s *fuego.Server) {
 	// fuego.Post(v1, "/auth/login", s.Security.LoginHandler(users.LoginFunc)).Tags("Auth").Summary("Login") // Registered by users
 	fuego.PostStd(v1, "/auth/logout", s.Security.CookieLogoutHandler).Tags("Auth").Summary("Logout")
 	fuego.PostStd(v1, "/auth/refresh", s.Security.RefreshHandler).Tags("Auth").Summary("Refresh token")
+
+	// Register auth
+	auth.MountRoutes(v1)
 
 	// Register users
 	users.MountRoutes(v1)

@@ -1,7 +1,6 @@
 package users
 
 import (
-	"fmt"
 	"rcbs/models"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -28,15 +27,6 @@ func GetUsers(username string, page, perPage int) (GetUsersControllers, error) {
 		perPage = 1
 	}
 
-	// Find users corresponding to the filters
-	users, err := models.Db.Users.Find(
-		filter,
-		options.Find().SetSkip(int64((page-1)*perPage)).SetLimit(int64(perPage)),
-	)
-	if err != nil {
-		return GetUsersControllers{}, err
-	}
-
 	// Count the total number of users corresponding to the filters
 	total, err := models.Db.Users.CountDocuments(filter)
 	if err != nil {
@@ -49,7 +39,18 @@ func GetUsers(username string, page, perPage int) (GetUsersControllers, error) {
 		maxPage++
 	}
 
-	fmt.Println(page, perPage, maxPage)
+	if page > int(maxPage) {
+		page = int(maxPage)
+	}
+
+	// Find users corresponding to the filters
+	users, err := models.Db.Users.Find(
+		filter,
+		options.Find().SetSkip(int64((page-1)*perPage)).SetLimit(int64(perPage)),
+	)
+	if err != nil {
+		return GetUsersControllers{}, err
+	}
 
 	return GetUsersControllers{
 		Users:   users,

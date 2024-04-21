@@ -23,11 +23,11 @@ type User struct {
 }
 
 func (u *User) SetPassword(password string) error {
-	hashed, error := hash.GenerateFromPassword(password)
-	if error != nil {
-		return error
+	hashed, err := hash.GenerateFromPassword(password)
+	if err != nil {
+		return err
 	}
-	u.HashedPassword = string(hashed)
+	u.HashedPassword = hashed
 	return nil
 }
 
